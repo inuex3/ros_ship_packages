@@ -1,3 +1,4 @@
+/*
 //headers for stl
 #include <sstream>
 //headers for gazebo
@@ -67,7 +68,9 @@ namespace gazebo
     }
 
     // Called by the world update start event
-    public: void OnUpdate(const common::UpdateInfo & /*_info*/)
+    */
+    //public: void OnUpdate(const common::UpdateInfo & /*_info*/)
+    /*
     {
       inflow_rate = model->GetWorldLinearVel().x;
       std_msgs::Float32 driving_force_msg;
@@ -149,3 +152,4 @@ namespace gazebo
   // Register this plugin with the simulator
   GZ_REGISTER_MODEL_PLUGIN(simple_driving_force_plugin)
 }
+*/

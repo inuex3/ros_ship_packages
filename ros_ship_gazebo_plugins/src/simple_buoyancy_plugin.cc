@@ -1,4 +1,4 @@
-//headers for stl
+/*//headers for stl
 #include <sstream>
 //headers for gazebo
 #include <gazebo/gazebo.hh>
@@ -74,7 +74,9 @@ namespace gazebo
     }
 
     // Called by the world update start event
-    public: void OnUpdate(const common::UpdateInfo & /*_info*/)
+    */
+    //public: void OnUpdate(const common::UpdateInfo & /*_info*/)
+    /*
     {
       this->link_pose = this->position_reference_link->GetWorldPose();
       std_msgs::Float32 buoyancy;
@@ -198,4 +200,4 @@ namespace gazebo
 
   // Register this plugin with the simulator
   GZ_REGISTER_MODEL_PLUGIN(simple_buoyancy_plugin)
-}
+}*/

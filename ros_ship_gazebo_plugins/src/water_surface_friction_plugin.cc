@@ -1,3 +1,4 @@
+/*
 //headers for stl
 #include <sstream>
 //headers for gazebo
@@ -34,7 +35,9 @@ namespace gazebo
     }
 
     // Called by the world update start event
-    public: void OnUpdate(const common::UpdateInfo & /*_info*/)
+    */
+    //public: void OnUpdate(const common::UpdateInfo & /*_info*/)
+    /*
     {
       math::Vector3 angular_vel = this->target_link->GetRelativeAngularVel();
       math::Vector3 linear_vel = this->target_link->GetRelativeLinearVel();
@@ -154,4 +157,4 @@ namespace gazebo
   };
   // Register this plugin with the simulator
   GZ_REGISTER_MODEL_PLUGIN(water_surface_friction_plugin)
-}
+}*/

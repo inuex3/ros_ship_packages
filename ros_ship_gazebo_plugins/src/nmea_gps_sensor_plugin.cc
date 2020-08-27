@@ -25,7 +25,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //=================================================================================================
-
+/*
 #include <nmea_gps_sensor_plugin.h>
 #include <gazebo/physics/physics.hh>
 
@@ -348,3 +348,4 @@ namespace gazebo
   GZ_REGISTER_MODEL_PLUGIN(nmea_gps_sensor_plugin)
 
 } // namespace gazebo
+*/
