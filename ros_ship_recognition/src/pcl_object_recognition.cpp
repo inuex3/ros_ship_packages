@@ -144,6 +144,7 @@ std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > pcl_obj
   rf_est.compute(*scene_rf);
 
   //  Clustering
+  /*
   pcl::Hough3DGrouping<pcl::PointXYZ, pcl::PointXYZ, pcl::ReferenceFrame, pcl::ReferenceFrame> clusterer;
   clusterer.setHoughBinSize(1.0);
   clusterer.setHoughThreshold(5.0);
@@ -156,7 +157,7 @@ std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > pcl_obj
   clusterer.setSceneRf(scene_rf);
   clusterer.setModelSceneCorrespondences(model_scene_corrs);
   clusterer.recognize (rototranslations, clustered_corrs);
-
+  */
   //ROS_INFO_STREAM("Model instances found: " << rototranslations.size ());
   return rototranslations;
 }
