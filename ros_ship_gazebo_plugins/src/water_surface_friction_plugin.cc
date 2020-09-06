@@ -7,7 +7,7 @@
 #include <gazebo/physics/Link.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
-#include <gazebo/math/gzmath.hh>
+#include <ignition/math.hh>
 //headers for sdf
 #include <sdf/Param.hh>
 #include <sdf/sdf.hh>
@@ -35,13 +35,13 @@ namespace gazebo
     }
 
     // Called by the world update start event
-    */
+*/
     //public: void OnUpdate(const common::UpdateInfo & /*_info*/)
-    /*
+/*
     {
-      math::Vector3 angular_vel = this->target_link->GetRelativeAngularVel();
-      math::Vector3 linear_vel = this->target_link->GetRelativeLinearVel();
-      math::Vector3 linear_friction_force,angular_friction_torque;
+      Vector3 angular_vel = this->target_link->GetRelativeAngularVel();
+      Vector3 linear_vel = this->target_link->GetRelativeLinearVel();
+      Vector3 linear_friction_force,angular_friction_torque;
       if(linear_vel.x > this->cruising_speed)
       {
         linear_friction_force.x = -1*std::pow(linear_vel.x,2)*this->mu_linear;
@@ -157,4 +157,5 @@ namespace gazebo
   };
   // Register this plugin with the simulator
   GZ_REGISTER_MODEL_PLUGIN(water_surface_friction_plugin)
-}*/
+}
+*/

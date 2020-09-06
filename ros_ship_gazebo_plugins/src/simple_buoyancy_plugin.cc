@@ -1,4 +1,4 @@
-/*//headers for stl
+//headers for stl
 #include <sstream>
 //headers for gazebo
 #include <gazebo/gazebo.hh>
@@ -6,7 +6,7 @@
 #include <gazebo/physics/Link.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
-#include <gazebo/math/gzmath.hh>
+#include <ignition/math.hh>
 //headers for sdf
 #include <sdf/Param.hh>
 #include <sdf/sdf.hh>
@@ -67,28 +67,27 @@ namespace gazebo
               this->buoyancy_pub = nh.advertise<std_msgs::Float32>("/"+this->bbox_prefix+"/"+target_link_name+"/buoyancy", 1);
             }
           }
-          this->target_link_bounding_box = this->target_link->GetBoundingBox();
+          this->target_link_bounding_box = this->target_link->BoundingBox();
           this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&simple_buoyancy_plugin::OnUpdate, this, _1));
         }
       }
     }
 
     // Called by the world update start event
-    */
-    //public: void OnUpdate(const common::UpdateInfo & /*_info*/)
-    /*
+
+    public: void OnUpdate(const common::UpdateInfo & /*_info*/)
     {
-      this->link_pose = this->position_reference_link->GetWorldPose();
+      this->link_pose = this->position_reference_link->WorldPose();
       std_msgs::Float32 buoyancy;
-      if((link_pose.pos.z+this->cob_z-this->bbox_z/2) >= this->water_surface_height)
+      if((link_pose.Pos().Z()+this->cob_z-this->bbox_z/2) >= this->water_surface_height)
       {
         buoyancy.data = 0;
       }
       else
       {
-        buoyancy.data = (this->water_surface_height-(link_pose.pos.z+this->cob_z-this->bbox_z/2))*9.8*1000*this->bbox_x*this->bbox_y;
-        //this->target_link->AddForce(math::Vector3(0, 0, buoyancy.data));
-        this->target_link->AddForceAtRelativePosition(math::Vector3(0, 0, buoyancy.data),math::Vector3(this->force_offset_x,this->force_offset_y,this->force_offset_z));
+        buoyancy.data = (this->water_surface_height-(link_pose.Pos().Z()+this->cob_z-this->bbox_z/2))*9.8*1000*this->bbox_x*this->bbox_y;
+        //this->target_link->AddForce(ignition::math::Vector3d(0, 0, buoyancy.data));
+        this->target_link->AddForceAtRelativePosition(ignition::math::Vector3d(0, 0, buoyancy.data),ignition::math::Vector3d(this->force_offset_x,this->force_offset_y,this->force_offset_z));
       }
       if(this->publish_data == true)
       {
@@ -178,10 +177,10 @@ namespace gazebo
     //Pointer to the link
     private: physics::LinkPtr target_link,position_reference_link;
 
-    private: math::Pose link_pose;
+  private: ignition::math::Pose3d link_pose;
 
     //bounding box of target link
-    private: math::Box target_link_bounding_box;
+    private: ignition::math::Box target_link_bounding_box;
 
     // Pointer to the update event connection
     private: event::ConnectionPtr updateConnection;
@@ -200,4 +199,4 @@ namespace gazebo
 
   // Register this plugin with the simulator
   GZ_REGISTER_MODEL_PLUGIN(simple_buoyancy_plugin)
-}*/
+}

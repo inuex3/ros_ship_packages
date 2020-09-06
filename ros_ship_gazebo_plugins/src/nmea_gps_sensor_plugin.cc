@@ -25,9 +25,10 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //=================================================================================================
-/*
+
 #include <nmea_gps_sensor_plugin.h>
 #include <gazebo/physics/physics.hh>
+#include <ignition/math.hh>
 
 //headers in stl
 #include <sys/time.h>
@@ -203,13 +204,13 @@ namespace gazebo
   // Update the controller
   void nmea_gps_sensor_plugin::Update()
   {
-    common::Time sim_time = world->GetSimTime();
+    common::Time sim_time = world->SimTime();
     double dt = updateTimer.getTimeSinceLastUpdate().Double();
 
-    math::Pose pose = link->GetWorldPose();
+    ignition::math::Pose3d pose = link->WorldPose();
 
-    gazebo::math::Vector3 velocity = velocity_error_model_(link->GetWorldLinearVel(), dt);
-    gazebo::math::Vector3 position = position_error_model_(pose.pos, dt);
+    ignition::math::Vector3d velocity = velocity_error_model_(link->WorldLinearVel(), dt);
+    ignition::math::Vector3d position = position_error_model_(pose.Pos(), dt);
 
     // An offset error in the velocity is integrated into the position error for the next timestep.
     // Note: Usually GNSS receivers have almost no drift in the velocity signal.
@@ -218,17 +219,17 @@ namespace gazebo
     fix_.header.stamp = ros::Time(sim_time.sec, sim_time.nsec);
     velocity_.header.stamp = fix_.header.stamp;
 
-    fix_.latitude  = reference_latitude_  + ( cos(reference_heading_) * position.x + sin(reference_heading_) * position.y) / radius_north_ * 180.0/M_PI;
-    fix_.longitude = reference_longitude_ - (-sin(reference_heading_) * position.x + cos(reference_heading_) * position.y) / radius_east_  * 180.0/M_PI;
-    fix_.altitude  = reference_altitude_  + position.z;
-    velocity_.vector.x =  cos(reference_heading_) * velocity.x + sin(reference_heading_) * velocity.y;
-    velocity_.vector.y = -sin(reference_heading_) * velocity.x + cos(reference_heading_) * velocity.y;
-    velocity_.vector.z = velocity.z;
+    fix_.latitude  = reference_latitude_  + ( cos(reference_heading_) * position.X() + sin(reference_heading_) * position.Y()) / radius_north_ * 180.0/M_PI;
+    fix_.longitude = reference_longitude_ - (-sin(reference_heading_) * position.X() + cos(reference_heading_) * position.Y()) / radius_east_  * 180.0/M_PI;
+    fix_.altitude  = reference_altitude_  + position.Z();
+    velocity_.vector.x =  cos(reference_heading_) * velocity.X() + sin(reference_heading_) * velocity.Y();
+    velocity_.vector.y = -sin(reference_heading_) * velocity.X() + cos(reference_heading_) * velocity.Y();
+    velocity_.vector.z = velocity.Z();
 
     fix_.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
-    fix_.position_covariance[0] = position_error_model_.drift.x*position_error_model_.drift.x + position_error_model_.gaussian_noise.x*position_error_model_.gaussian_noise.x;
-    fix_.position_covariance[4] = position_error_model_.drift.y*position_error_model_.drift.y + position_error_model_.gaussian_noise.y*position_error_model_.gaussian_noise.y;
-    fix_.position_covariance[8] = position_error_model_.drift.z*position_error_model_.drift.z + position_error_model_.gaussian_noise.z*position_error_model_.gaussian_noise.z;
+    fix_.position_covariance[0] = position_error_model_.drift.X()*position_error_model_.drift.X() + position_error_model_.gaussian_noise.X()*position_error_model_.gaussian_noise.X();
+    fix_.position_covariance[4] = position_error_model_.drift.Y()*position_error_model_.drift.Y() + position_error_model_.gaussian_noise.Y()*position_error_model_.gaussian_noise.Y();
+    fix_.position_covariance[8] = position_error_model_.drift.Z()*position_error_model_.drift.Z() + position_error_model_.gaussian_noise.Z()*position_error_model_.gaussian_noise.Z();
 
     nmea_sentence_publisher_.publish(build_GPGGA_sentence());
     nmea_sentence_publisher_.publish(build_GPRMC_sentence());
@@ -348,4 +349,3 @@ namespace gazebo
   GZ_REGISTER_MODEL_PLUGIN(nmea_gps_sensor_plugin)
 
 } // namespace gazebo
-*/

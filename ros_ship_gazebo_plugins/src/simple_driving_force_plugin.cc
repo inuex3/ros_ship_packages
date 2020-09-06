@@ -1,4 +1,3 @@
-/*
 //headers for stl
 #include <sstream>
 //headers for gazebo
@@ -7,7 +6,9 @@
 #include <gazebo/physics/Link.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
-#include <gazebo/math/gzmath.hh>
+#include <ignition/math.hh>
+#include <ignition/math/Vector3.hh>
+#include <ignition/math/Pose3.hh>
 //headers for sdf
 #include <sdf/Param.hh>
 #include <sdf/sdf.hh>
@@ -68,15 +69,14 @@ namespace gazebo
     }
 
     // Called by the world update start event
-    */
-    //public: void OnUpdate(const common::UpdateInfo & /*_info*/)
-    /*
+
+    public: void OnUpdate(const common::UpdateInfo & /*_info*/)
     {
-      inflow_rate = model->GetWorldLinearVel().x;
+      inflow_rate = model->WorldLinearVel().X();
       std_msgs::Float32 driving_force_msg;
       double velocity = this->joint->GetVelocity(0);
       double driving_force = get_thrust(velocity,this->inflow_rate);
-      this->link->AddForce(math::Vector3(driving_force, 0, 0));
+      this->link->AddForce(ignition::math::Vector3d(driving_force, 0, 0));
       driving_force_msg.data = driving_force;
       driving_force_pub.publish(driving_force_msg);
     }
@@ -152,4 +152,3 @@ namespace gazebo
   // Register this plugin with the simulator
   GZ_REGISTER_MODEL_PLUGIN(simple_driving_force_plugin)
 }
-*/
